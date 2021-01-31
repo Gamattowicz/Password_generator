@@ -1,30 +1,19 @@
 # import random
+from itertools import chain
 
-#Special characters 
-print('SPECIAL CHARACTERS')   
-for i in range(33, 48):
-    print(i, chr(i))
-    
-for i in range(58, 65):
-    print(i, chr(i))
-    
-for i in range(91, 97):
-    print(i, chr(i))
-    
-for i in range(123, 127):
-    print(i, chr(i))    
-    
+#Special characters
+spec_chr = [chr(i) for i in chain(range(33,48), range(58, 65), range(91, 97), range(123, 127))]
+print(spec_chr)
+
 #Uppercase characters
-print('UPPERCASE CHARACTERS')
-for i in range(65, 91):
-    print(i, chr(i))
-    
+upp_chr = [chr(i) for i in range(65, 91)]
+print(upp_chr)
+
 #Lowercase characters
-print('LOWERCASE CHARACTERS')
-for i in range(97, 123):
-    print(i, chr(i))
-    
+low_chr = [chr(i) for i in range(97, 123)]
+print(low_chr)
+
 #Numbers
-print('NUMBERS')
-for i in range(48, 58):
-    print(i, chr(i))  
+num_chr = [chr(i) for i in range(48, 58)]
+print(num_chr)
+ 
