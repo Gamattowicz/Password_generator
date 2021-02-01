@@ -2,15 +2,44 @@
 
 import tkinter as tk
 from tkinter import ttk
+from itertools import chain
+import random
+
+#Special characters
+spec_chr = [chr(i) for i in chain(range(33,48), range(58, 65), range(91, 97), range(123, 127))]
+
+#Uppercase characters
+upp_chr = [chr(i) for i in range(65, 91)]
+
+#Lowercase characters
+low_chr = [chr(i) for i in range(97, 123)]
+
+#Numbers
+num_chr = [chr(i) for i in range(48, 58)]
+
+options = [spec_chr, upp_chr, low_chr, num_chr]
 
 win = tk.Tk()
 win.title('Password Generator')
 
 values = [i for i in range(1, 20)]
-    
+
 def show_option():
-    print(f'Special char: {chVar1.get()}, uppercase: {chVar2.get()}, lowercase: {chVar3.get()}, numbers: {chVar4.get()}')
-    
+    pass_area.delete(0, tk.END)
+    length_pass = int(pass_len.get())
+    new_password = ''
+    possibility = []
+    optionsIndex = [chVar1.get(), chVar2.get(), chVar3.get(), chVar4.get()]
+    for i in range(4):
+        if optionsIndex[i] == 1:
+            possibility.extend(options[i])
+    print(possibility)
+    for i in range(0, length_pass):
+        new_password += random.choice(possibility)
+    print(new_password)
+    pass_area.insert(10, new_password)
+
+
 #Password options
 op_label = tk.LabelFrame(win, text = 'Options', fg = 'blue')
 op_label.grid(column = 0, row = 0, columnspan = 2, sticky = 'WE', padx = 15, pady = (15, 10))
@@ -18,7 +47,7 @@ op_label.grid(column = 0, row = 0, columnspan = 2, sticky = 'WE', padx = 15, pad
 tk.Label(op_label, text = 'Password Length').grid(column = 0, row = 0, sticky = 'W', padx = (15, 10) , pady = (15, 5))
 
 number = tk.StringVar
-pass_len = ttk.Combobox(op_label, width = 3, textvariable = number)
+pass_len = ttk.Combobox(op_label, width = 3, textvariable = number, state = 'readonly')
 pass_len['values'] = values
 pass_len.grid(column = 1, row = 0, sticky = 'W', padx = 10, pady = (15, 5))
 pass_len.current(0)
@@ -49,18 +78,18 @@ check_num_chr.grid(column = 0, row = 4, columnspan = 2, sticky = 'W', padx = (15
 
 password = tk.LabelFrame(win, text = 'Password', fg = 'green' )
 password.grid(column = 0, row = 1, sticky = 'W', padx = 15, pady = (5, 15))
-pass_area = tk.Entry(password)
-pass_area.grid(column = 0, row = 0, sticky = 'WE', padx = (10, 15), pady = 5)
+pass_area = tk.Entry(password, justify = 'center')
+pass_area.grid(column = 0, row = 0, sticky = 'WE', columnspan = 2, padx = (10, 15), pady = 5)
 
 
 #Buttons 
 copy_btn = tk.Button(password, text = 'Copy')
 copy_btn.grid(column = 0, row = 2, sticky = 'W', padx = (15, 10), pady = (5, 5))
 
-gen_btn = tk.Button(password, text = 'Generate password')
+gen_btn = tk.Button(password, text = 'Generate password', command = show_option)
 gen_btn.grid(column = 1, row = 2, sticky = 'W', padx = (10, 15), pady = (5, 4))
 
-checkbtn = tk.Button(password, text = 'Show', command = show_option)
+checkbtn = tk.Button(password, text = 'Show')
 checkbtn.grid(column = 0, row = 3, sticky = 'W', padx = (15, 10), pady = (5, 15))
 
 quitbtn = tk.Button(password, text = ' Quit', command = win.quit)
