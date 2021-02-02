@@ -6,6 +6,7 @@ from tkinter import messagebox as mBox
 from itertools import chain
 import random
 import pyperclip
+
 #Special characters
 spec_chr = [chr(i) for i in chain(range(33,48), range(58, 65), range(91, 97), range(123, 127))]
 
@@ -27,18 +28,22 @@ values = [i for i in range(5, 21)]
 
 def show_option():
     pass_area.delete(0, tk.END)
+    
     length_pass = int(pass_len.get())
     new_password = ''
     possibility = []
     optionsIndex = [chVar1.get(), chVar2.get(), chVar3.get(), chVar4.get()]
+    
     for i in range(4):
         if optionsIndex[i] == 1:
             possibility.extend(options[i])
-    print(possibility)
+            
     if len(possibility) < 1:
         return mBox.showwarning('Warning', 'You must select at least one of the options')
+    
     for i in range(0, length_pass):
         new_password += random.choice(possibility)
+        
     print(new_password)
     pass_area.insert(10, new_password)
 
@@ -81,7 +86,6 @@ check_num_chr.grid(column = 0, row = 4, columnspan = 2, sticky = 'W', padx = (15
 
 
 #Password 
-
 password = tk.LabelFrame(win, text = 'Password', fg = 'green' )
 password.grid(column = 0, row = 1, sticky = 'W', padx = 15, pady = (5, 15))
 pass_area = tk.Entry(password, justify = 'center')
