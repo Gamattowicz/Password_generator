@@ -2,6 +2,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox as mBox
 from itertools import chain
 import random
 
@@ -34,10 +35,13 @@ def show_option():
         if optionsIndex[i] == 1:
             possibility.extend(options[i])
     print(possibility)
+    if len(possibility) < 1:
+        return mBox.showwarning('Warning', 'You must select at least one of the options')
     for i in range(0, length_pass):
         new_password += random.choice(possibility)
     print(new_password)
     pass_area.insert(10, new_password)
+    #Add alert is any of options is not checked
 
 
 #Password options
