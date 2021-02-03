@@ -1,21 +1,28 @@
 #!/usr/bin/python3
 
-# import random
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox as mBox
 from itertools import chain
+import random
+import pyperclip
 
-#Special characters
-spec_chr = [chr(i) for i in chain(range(33,48), range(58, 65), range(91, 97), range(123, 127))]
-print(spec_chr)
+class ChckBtnCreate():
+   def __init__(self, parent, names = []):
+      self.parent = parent
+      rowIndex = 1
+      for name in names:
+         chVar = tk.IntVar()
+         chckBtn = tk.Checkbutton(self.parent, text = name, variable = chVar)
+         chckBtn.grid(column = 0, row = rowIndex, columnspan = 2, sticky = 'W', padx = (15, 10), pady = 5)
+         rowIndex += 1
 
-#Uppercase characters
-upp_chr = [chr(i) for i in range(65, 91)]
-print(upp_chr)
 
-#Lowercase characters
-low_chr = [chr(i) for i in range(97, 123)]
-print(low_chr)
+if __name__ == '__main__':
+   win = tk.Tk()
+   win.title('Password Generator')
+   lng = ChckBtnCreate(win, ['Special Characters', 'Uppercase Characters', 'Lowercase Characters', 'Numbers'])
 
-#Numbers
-num_chr = [chr(i) for i in range(48, 58)]
-print(num_chr)
- 
+
+   win.mainloop()
+
