@@ -26,9 +26,13 @@ class BtnCreate():
             btn = tk.Button(parent, text = name, command = self.commands[funIndex])
             btn.grid(column = funIndex, row = 2, sticky = 'W', padx = (15, 10), pady = (5, 15))
             funIndex += 1
+            
    def state(self):
       return map((lambda var: var.get()), self.vars)
-            
+
+
+      
+                
 #Special characters
 spec_chr = [chr(i) for i in chain(range(33,48), range(58, 65), range(91, 97), range(123, 127))]
 
@@ -41,38 +45,50 @@ low_chr = [chr(i) for i in range(97, 123)]
 #Numbers
 num_chr = [chr(i) for i in range(48, 58)]
 
-options = [spec_chr, upp_chr, low_chr, num_chr]         
+# options = [spec_chr, upp_chr, low_chr, num_chr]         
 
+
+
+
+class PasswordCreate():
+   def __init__(self, options = [], password_length = '', btn = '', password_area = ''):
+      self.options = options
+      self.password_area = password_area
+      self.password_length = password_length
+      self.password_new = ''
+      self.possibility = []
+      self.btn = btn
+      
+      
+      
+   def gen_password(self):
+      self.password_area.delete(0, tk.END)
+      self.options_index = list(self.btn.state())
+      
+      for i in range(len(self.options)):
+         if self.options_index[i] == 1:
+               self.possibility.extend(self.options[i])
+            
+      if len(self.possibility) < 1:
+         return mBox.showwarning('Warning', 'You must select at least one of the options')
+      
+      for i in range(0, int(self.password_length.get())):
+         self.password_new += random.choice(self.possibility)
+         
+      print(self.password_new)
+      self.password_area.insert(10, self.password_new)
+      self.password_new = ''
+         
+    
+   def copy_password(self):
+      self.copy_password = self.password_area.get()
+      pyperclip.copy(self.copy_password)
+   
 if __name__ == '__main__':
    win = tk.Tk()
    win.title('Password Generator')
-   values = [i for i in range(5, 21)]
-   
-   def show_option():
-      pass_area.delete(0, tk.END)
-    
-      length_pass = int(pass_len.get())
-      new_password = ''
-      possibility = []
-      optionsIndex = list(check_boxes.state())
-    
-      for i in range(4):
-         if optionsIndex[i] == 1:
-               possibility.extend(options[i])
-            
-      if len(possibility) < 1:
-         return mBox.showwarning('Warning', 'You must select at least one of the options')
-      
-      for i in range(0, length_pass):
-         new_password += random.choice(possibility)
-         
-      print(new_password)
-      pass_area.insert(10, new_password)
-
-   def copy_option():
-      copy_password = pass_area.get()
-      pyperclip.copy(copy_password)
-    
+   values = [i for i in range(5, 21)]  
+     
    #Password options
    op_label = tk.LabelFrame(win, text = 'Options', fg = 'blue')
    op_label.grid(column = 0, row = 0, columnspan = 2, sticky = 'WE', padx = 15, pady = (15, 10))
@@ -91,7 +107,9 @@ if __name__ == '__main__':
    password.grid(column = 0, row = 1, sticky = 'W', padx = 15, pady = (5, 15))
    pass_area = tk.Entry(password, justify = 'center')
    pass_area.grid(column = 0, row = 0, sticky = 'WE', columnspan = 3, padx = (15, 15), pady = 5)
-   btns = BtnCreate(password, ['Copy', 'Generate', ' Quit'], 'btn', [copy_option, show_option, win.quit])
+   # Align buttons
+   random_password = PasswordCreate([spec_chr, upp_chr, low_chr, num_chr], pass_len, check_boxes, pass_area)
+   btns = BtnCreate(password, ['Copy', 'Generate', ' Quit'], 'btn', [random_password.copy_password, random_password.gen_password, win.quit])
 
    win.mainloop()
 
