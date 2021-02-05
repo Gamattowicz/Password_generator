@@ -3,25 +3,28 @@ import random, pyperclip, tkinter as tk
 from tkinter import ttk, messagebox as mBox
 
 
-class BtnCreate:
-    def __init__(self, parent, names = [], type = 'chck', commands = []):
-        self.parent = parent
-        self.vars = []
-        self.rowIndex = 1
-        self.commands = commands
-        self.funIndex = 0
-        if type == 'chck':
-            for name in names:
-                chVar = tk.IntVar()
-                chckBox = tk.Checkbutton(self.parent, text = name, variable = chVar)
-                chckBox.grid(column = 0, row = self.rowIndex, columnspan = 2, sticky = 'W', padx = (15, 10), pady = 5)
-                self.vars.append(chVar)
-                self.rowIndex += 1
-        elif type == 'btn':
-            for name in names:
-                btn = tk.Button(parent, text = name, command = self.commands[self.funIndex])
-                btn.grid(column = self.funIndex, row = 2, sticky = 'W', padx = (15, 15), pady = (5, 15))
-                self.funIndex += 1
+class PasswordCreate:
+    def __init__(self, options = [], password_length = '', btn = '', password_area = ''):
+        self.options = options
+        self.password_area = password_area
+        self.password_length = password_length
+        self.password_new = ''
+        self.possibility = []
+        self.btn = btn
 
-    def state(self):
-        return map((lambda var: var.get()), self.vars)
+    def gen_password(self):
+        self.password_area.delete(0, tk.END)
+        self.options_index = list(self.btn.state())
+        for i in range(len(self.options)):
+            if self.options_index[i] == 1:
+                self.possibility.extend(self.options[i])
+        if len(self.possibility) < 1:
+            return mBox.showwarning('Warning', 'You must select at least one of the options')
+        for i in range(0, int(self.password_length.get())):
+            self.password_new += random.choice(self.possibility)
+        print(self.password_new)
+        self.password_area.insert(10, self.password_new)
+        self.password_new = ''
+
+    def copy_password(self):
+        pyperclip.copy(self.password_area.get())
