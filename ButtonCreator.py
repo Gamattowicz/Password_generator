@@ -2,7 +2,6 @@
 import tkinter as tk
 
 
-
 class BtnCreate:
     def __init__(self, parent, names = [], type = 'chck', commands = []):
         self.parent = parent
